@@ -11,6 +11,14 @@
             formControlName="username"
           />
         </div>
+        <span
+          *ngIf="
+            !signupform.get('username').valid &&
+            signupform.get('username').touched
+          "
+          class="help-block"
+          >Please enter a valid username!</span
+        >
         <div class="form-group">
           <label for="email">email</label>
           <input
@@ -20,6 +28,13 @@
             formControlName="email"
           />
         </div>
+        <span
+          *ngIf="
+            !signupform.get('email').valid && signupform.get('email').touched
+          "
+          class="help-block"
+          >Please enter a valid email!</span
+        >
         <div class="radio" *ngFor="let gender of genders">
           <label>
             <input type="radio" [value]="gender" formControlName="gender" />

@@ -18,8 +18,21 @@
               signupform.get('userData.username').touched
             "
             class="help-block"
-            >Please enter a valid username!</span
           >
+            <span
+              *ngIf="
+                signupform.get('userData.username').hasError('nameIsForbidden')
+              "
+              class="help-block"
+              >Username Forbidden!</span
+            >
+            <span
+              *ngIf="signupform.get('userData.username').hasError('required')"
+              class="help-block"
+              >This field is required!</span
+            >
+          </span>
+
           <div class="form-group">
             <label for="email">email</label>
             <input

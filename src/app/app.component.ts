@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
+import { Observable } from "rxjs/observable";
 
 @Component({
   selector: "app-root",
@@ -30,7 +31,11 @@ export class AppComponent implements OnInit {
         // It's important to remember that the validators that we pass in must be imported from angular forms
         // and that they are passed as reference, so we do not execute them. Instead angular itself will execute
         // our validators when something is typed into the value.
-        email: new FormControl(null, [Validators.required, Validators.email])
+        email: new FormControl(
+          null,
+          [Validators.required, Validators.email],
+          [this.forbiddenEmails.bind(this)]
+        )
       }),
       gender: new FormControl("male"),
       hobbies: new FormArray([])
@@ -68,6 +73,31 @@ export class AppComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+  /* -This is an ansynchrous validator that we make which returns either a promise or an observable.
+    - We use asychronus validators mostly when we want to grab something from the backend or an external API
+    since these things are not instant and take time to bring back the data to the front end.
+
+    - We are going to simulate reaching out to the backend and getting some data with the setTimeout() method.
+    - rember that a promise take two arguments resolve and reject.
+    - if the control.value from the email field matches test@test.com we want to register a forbidden error,
+      if not not then we won't raise any validation error and resolve null.
+    - remember that Validators must always return something so at the end of this function we return the promise
+      that we created.
+    - Finally we add this asynchronous validator as a thrid argument into our email Form Conrtol above.
+  */
+  forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise((res, rej) => {
+      setTimeout(() => {
+        if (control.value === "test@test.com") {
+          res({ emailIsForbidden: true });
+        } else {
+          res(null);
+        }
+      }, 1500);
+    });
+    return promise;
   }
 
   onSubmit() {

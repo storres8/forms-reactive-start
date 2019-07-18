@@ -40,6 +40,20 @@ export class AppComponent implements OnInit {
       gender: new FormControl("male"),
       hobbies: new FormArray([])
     });
+
+    // We can also subscribe to any changes to our Form with the valueChanges method b/c it return an observable.
+    /*
+      this.signupform.valueChanges.subscribe(value => {
+        console.log(value);
+      });
+    */
+
+    // We can also subscribe to any state changes in our from the same way but with the status method.
+    /*
+    this.signupform.statusChanges.subscribe(status => {
+      console.log(status);
+    });
+    */
   }
 
   onAddHobby() {

@@ -54,6 +54,26 @@ export class AppComponent implements OnInit {
       console.log(status);
     });
     */
+
+    // setValue and Patch value methods work just as before.
+    /*
+    this.signupform.setValue({
+      userData: {
+        username: "storres8",
+        email: "steve@test.com"
+      },
+      gender: "male",
+      hobbies: []
+    });
+    */
+
+    // Remember that patch allows you to patch one value or all but with setValue you must provide a value for
+    // all fields.
+    this.signupform.patchValue({
+      userData: {
+        username: "testing123"
+      }
+    });
   }
 
   onAddHobby() {
